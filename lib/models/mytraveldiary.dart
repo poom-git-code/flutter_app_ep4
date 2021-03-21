@@ -9,6 +9,7 @@ class Mytraveldiary {
   String tDay;
   String tPay;
   String tDate;
+  String imageName;
 
   Mytraveldiary(
       {this.message,
@@ -18,7 +19,9 @@ class Mytraveldiary {
         this.tNum,
         this.tDay,
         this.tPay,
-        this.tDate});
+        this.tDate,
+        this.imageName
+      });
 
   Mytraveldiary.fromJson(Map<String, dynamic> json) {
     message = json['message'];
@@ -29,6 +32,7 @@ class Mytraveldiary {
     tDay = json['tDay'];
     tPay = json['tPay'];
     tDate = json['tDate'];
+    imageName = json['imageName'];
   }
 
   Map<String, dynamic> toJson() {
@@ -41,6 +45,7 @@ class Mytraveldiary {
     data['tDay'] = this.tDay;
     data['tPay'] = this.tPay;
     data['tDate'] = this.tDate;
+    data['imageName'] = this.imageName;
     return data;
   }
 }

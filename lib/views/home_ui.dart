@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_app_ep4/models/mytraveldiary.dart';
 import 'package:flutter_app_ep4/utils/service_api.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_app_ep4/views/intsert_my_travel.dart';
+import 'package:flutter_app_ep4/views/up_det_my_travel_ui.dart';
 
 class HomeUi extends StatefulWidget {
   @override
@@ -56,7 +58,7 @@ class _HomeUiState extends State<HomeUi> {
         title: Text(
           'Travel Diary 2010',
           style: TextStyle(
-            fontSize: 23,
+            fontSize: 25,
             fontWeight: FontWeight.bold,
             color: Colors.white
           ),
@@ -64,7 +66,18 @@ class _HomeUiState extends State<HomeUi> {
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: (){},
+        onPressed: (){
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => InsertMyTravel(),
+            ),
+          ).then((value){
+            setState(() {
+              getAllMytraveldiary();
+            });
+          });
+        },
         backgroundColor: Color(0xffF7C289),
         icon: Icon(
           Icons.add,
@@ -123,6 +136,27 @@ class _HomeUiState extends State<HomeUi> {
                           //แสดงเเต่ะรายการใน listview
                           itemBuilder: (context, index){
                             return ListTile(
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context){
+                                      return UpDetMyTravelUI(
+                                        snapshop.data[index].tId,
+                                        snapshop.data[index].tState,
+                                        snapshop.data[index].tImage,
+                                        snapshop.data[index].tNum,
+                                        snapshop.data[index].tDay,
+                                        snapshop.data[index].tPay
+                                      );
+                                    }
+                                  )
+                                ).then((value){
+                                  setState(() {
+                                    getAllMytraveldiary();
+                                  });
+                                });
+                              },
                               leading: CachedNetworkImage(
                                 imageUrl: '${urlService}/traveldiary/${snapshop.data[index].tImage}',
                                 width: 50,
@@ -148,7 +182,7 @@ class _HomeUiState extends State<HomeUi> {
                                   changeDeteFormat(snapshop.data[index].tDate)
                               ),
                               trailing: Icon(
-                                Icons.arrow_back_ios,
+                                Icons.arrow_forward_ios,
                               ),
                             );
                           },

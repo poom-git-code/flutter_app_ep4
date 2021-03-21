@@ -29,3 +29,84 @@ Future<List<Mytraveldiary>> serviceGetAllMyTravel() async{
     return null;
   }
 }
+
+//สร้างเมธอดเรียนกใช้ Service : serviceInsertMyAccount
+Future<String> serviceInsertTravelDiary(String tState, String tImage, String tNum, String tDay,String tPay, String imageName) async{
+  //นำค่าที่จะส่งไปบันทึกที่ Server มารวมกันเป็นออฟเจ็กต์
+  Mytraveldiary mytraveldiary = Mytraveldiary(
+      tState: tState,
+      tImage: tImage,
+      tNum: tNum,
+      tDay: tDay,
+      tPay: tPay,
+      imageName: imageName
+  );
+
+  //ส่งข้อมูลไป Server ผ่าน Service insert
+  final response = await http.post(
+      Uri.encodeFull('${urlService}/traveldiary/serviceInsertTravelDiary.php'),
+      body: json.encode(mytraveldiary.toJson()),
+      headers: {"Content-Type": "application/json"}
+  );
+
+  //เอาทผลี่ส่งกลับมาส่งกลับไปยังจุดเรียกใช้เพื่อนำข้อมูลที่ส่งกลับมาไปใช้งาน
+  if(response.statusCode == 201){
+    final resData = json.decode(response.body);
+    return resData['message'];
+  }
+  else{
+    return null;
+  }
+}
+
+Future<String> serviceUpDateTravelDiary(String tID, String tState, String tImage, String tNum, String tDay,String tPay, String imageName) async{
+  //นำค่าที่จะส่งไปบันทึกที่ Server มารวมกันเป็นออฟเจ็กต์
+  Mytraveldiary mytraveldiary = Mytraveldiary(
+      tId: tID,
+      tState: tState,
+      tImage: tImage,
+      tNum: tNum,
+      tDay: tDay,
+      tPay: tPay,
+      imageName: imageName
+  );
+
+  //ส่งข้อมูลไป Server ผ่าน Service insert
+  final response = await http.post(
+      Uri.encodeFull('${urlService}/traveldiary/serviceUpDateTravelDiary.php'),
+      body: json.encode(mytraveldiary.toJson()),
+      headers: {"Content-Type": "application/json"}
+  );
+
+  //เอาทผลี่ส่งกลับมาส่งกลับไปยังจุดเรียกใช้เพื่อนำข้อมูลที่ส่งกลับมาไปใช้งาน
+  if(response.statusCode == 201){
+    final resData = json.decode(response.body);
+    return resData['message'];
+  }
+  else{
+    return null;
+  }
+}
+
+Future<String> serviceDeleteMyTravel(String tId) async{
+  //นำค่าที่จะส่งไปบันทึกที่ Server มารวมกันเป็นออฟเจ็กต์
+  Mytraveldiary mytraveldiary = Mytraveldiary(
+    tId: tId
+  );
+
+  //ส่งข้อมูลไป Server ผ่าน Service insert
+  final response = await http.post(
+      Uri.encodeFull('${urlService}/traveldiary/serviceDeleteTravelDiary.php'),
+      body: json.encode(mytraveldiary.toJson()),
+      headers: {"Content-Type": "application/json"}
+  );
+
+  //เอาทผลี่ส่งกลับมาส่งกลับไปยังจุดเรียกใช้เพื่อนำข้อมูลที่ส่งกลับมาไปใช้งาน
+  if(response.statusCode == 201){
+    final resData = json.decode(response.body);
+    return resData['message'];
+  }
+  else{
+    return null;
+  }
+}
